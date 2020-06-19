@@ -26,6 +26,9 @@ ARGS.extend(sys.argv[1:])
 
 DNE = '`pre-commit` not found.  Did you forget to activate your virtualenv?'
 if os.access(INSTALL_PYTHON, os.X_OK):
+    bindir = os.path.dirname(INSTALL_PYTHON)
+    if os.path.isfile(os.path.join(os.path.dirname(bindir), 'pyvenv.cfg')):
+        os.environ['PATH'] = os.pathsep.join((bindir, os.environ.get('PATH', '')))
     CMD = [INSTALL_PYTHON, '-mpre_commit']
 elif which('pre-commit'):
     CMD = ['pre-commit']
